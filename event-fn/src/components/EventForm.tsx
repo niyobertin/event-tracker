@@ -32,24 +32,24 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialData }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div>
-        <label className='block text-sm font-medium'>Title</label>
-        <input type='text' {...register('title')} className='w-full border rounded p-2' />
+        <label className='block text-sm font-medium dark:text-gray-100'>Title</label>
+        <input type='text' {...register('title')} className='w-full border rounded p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100' />
         <p className='text-red-500 text-sm'>{errors.title?.message}</p>
       </div>
 
       <div>
-        <label className='block text-sm font-medium'>Description</label>
-        <textarea {...register('description')} className='w-full border rounded p-2' />
+        <label className='block text-sm font-medium dark:text-gray-100'>Description</label>
+        <textarea {...register('description')} className='w-full border rounded p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100' />
         <p className='text-red-500 text-sm'>{errors.description?.message}</p>
       </div>
 
       <div>
-        <label className='block text-sm font-medium'>Date & Time</label>
-        <input type='datetime-local' {...register('date')} className='w-full border rounded p-2' />
+        <label className='block text-sm font-medium dark:text-gray-100'>Date & Time</label>
+        <input type='datetime-local' {...register('date')} className='w-full border rounded p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100' />
         <p className='text-red-500 text-sm'>{errors.date?.message}</p>
       </div>
 
-      <button type='submit' className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700'>
+      <button type='submit' className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900'>
         {initialData ? 'Update Event' : 'Create Event'}
       </button>
     </form>

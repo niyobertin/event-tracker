@@ -52,3 +52,32 @@ export default tseslint.config({
   },
 })
 ```
+
+# Event Tracker
+
+## Features
+- **Entry Point:** The app opens to the Hero section at `/`.
+- **Home Page:** Navigate to `/home` to view and manage events.
+- **Dark/Light Mode:** Use the toggle button in the header to switch between dark and light themes.
+- **Routing:** Powered by React Router. You can add more pages by editing `App.tsx`.
+
+### How to Use
+
+1. **Start the App**
+   - Run `npm install` and `npm run dev` in the `event-fn` directory.
+   - Open your browser to the local server (usually `http://localhost:5173/`).
+
+2. **Navigation**
+   - The landing page ("Hero Section") welcomes you and provides a button to explore events.
+   - Click "Explore Events" or go to `/home` to access the event management page.
+
+3. **Dark/Light Mode**
+   - In the header (top bar), click the sun/moon button to toggle between light and dark mode.
+   - The theme is applied instantly across the app.
+
+4. **Adding More Routes**
+   - Open `src/App.tsx` and add new `<Route path='/your-path' element={<YourComponent />} />` inside the `<Routes>` block.
+
+---
+
+For more details, see the code comments in `App.tsx`, `Hero.tsx`, and `Header.tsx`.

@@ -23,9 +23,9 @@ const getBackgroundColor = (dateStr: string) => {
   const now = new Date();
   const eventDate = new Date(dateStr);
   const diff = Math.floor((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  if (diff < 0) return 'bg-red-200';
-  if (diff <= 2) return 'bg-yellow-100';
-  return 'bg-white';
+  if (diff < 0) return 'bg-red-200 dark:bg-red-900';
+  if (diff <= 2) return 'bg-yellow-100 dark:bg-yellow-900';
+  return 'bg-white dark:bg-gray-800';
 };
 
 const Countdown: React.FC<{ eventDate: string }> = ({ eventDate }) => {
@@ -62,13 +62,13 @@ const EventCard: React.FC<Props> = ({ event, onEdit, onDelete, onView }) => {
       className={`p-4 rounded shadow cursor-pointer ${getBackgroundColor(event.date)}`}
       onClick={() => onView(event)}
     >
-      <h3 className='text-lg font-semibold'>{event.title}</h3>
-      <p>
+      <h3 className='text-lg font-semibold dark:text-gray-100'>{event.title}</h3>
+      <p className='dark:text-gray-200'>
         {event.description.length > 150
           ? `${event.description.slice(0, 150)}...`
           : event.description}
       </p>
-      <p className='text-sm text-gray-600'>{new Date(event.date).toLocaleString()}</p>
+      <p className='text-sm text-gray-600 dark:text-gray-400'>{new Date(event.date).toLocaleString()}</p>
       <Countdown eventDate={event.date} />
       <div className='flex gap-2 mt-2'>
         <button
@@ -76,7 +76,7 @@ const EventCard: React.FC<Props> = ({ event, onEdit, onDelete, onView }) => {
             e.stopPropagation();
             onEdit(event);
           }}
-          className='text-blue-600 hover:underline'
+          className='text-blue-600 dark:text-blue-400 hover:underline'
         >
           Edit
         </button>
@@ -85,7 +85,7 @@ const EventCard: React.FC<Props> = ({ event, onEdit, onDelete, onView }) => {
             e.stopPropagation();
             onDelete(event.id);
           }}
-          className='text-red-600 hover:underline'
+          className='text-red-600 dark:text-red-400 hover:underline'
         >
           Delete
         </button>

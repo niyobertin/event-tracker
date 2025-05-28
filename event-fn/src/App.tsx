@@ -4,12 +4,10 @@ import { HeroSection } from './components/Hero';
 import Home from './pages/Home';
 function App() {
   return (
-    <>
-      <HeroSection />
-      <Routes>
-        <Route path='/home' element={<Home />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path='/' element={<HeroSection />} />
+      <Route path='/home' element={<Home />} />
+    </Routes>
   );
 }
 
