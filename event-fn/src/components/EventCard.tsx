@@ -16,16 +16,16 @@ interface Props {
   event: Event;
   onEdit: (event: Event) => void;
   onDelete: (id: string) => void;
-  onView: (event: Event) => void; // 👈 Add this
+  onView: (event: Event) => void;
 }
 
-const getBackgroundColor = (dateStr: string) => {
+const getTextColor = (dateStr: string) => {
   const now = new Date();
   const eventDate = new Date(dateStr);
   const diff = Math.floor((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  if (diff < 0) return 'bg-red-200 dark:bg-red-900';
-  if (diff <= 2) return 'bg-yellow-100 dark:bg-yellow-900';
-  return 'bg-white dark:bg-gray-800';
+  if (diff < 0) return 'text-red-600 dark:text-red-400';
+  if (diff <= 2) return 'text-yellow-600 dark:text-yellow-400';
+  return 'text-gray-700 dark:text-gray-300';
 };
 
 const Countdown: React.FC<{ eventDate: string }> = ({ eventDate }) => {
@@ -53,13 +53,13 @@ const Countdown: React.FC<{ eventDate: string }> = ({ eventDate }) => {
     return () => clearInterval(interval);
   }, [eventDate]);
 
-  return <p className='text-sm text-gray-600 mt-2'>{timeLeft}</p>;
+  return <p className={`p-2 rounded text-sm font-medium ${getTextColor(eventDate)}`}>{timeLeft}</p>;
 };
 
 const EventCard: React.FC<Props> = ({ event, onEdit, onDelete, onView }) => {
   return (
     <div
-      className={`p-4 rounded shadow cursor-pointer ${getBackgroundColor(event.date)}`}
+      className='p-4 rounded border dark:border-gray-700 shadow hover:bg-gray-50 dark:hover:bg-gray-900 transition'
       onClick={() => onView(event)}
     >
       <h3 className='text-lg font-semibold dark:text-gray-100'>{event.title}</h3>
@@ -68,9 +68,11 @@ const EventCard: React.FC<Props> = ({ event, onEdit, onDelete, onView }) => {
           ? `${event.description.slice(0, 150)}...`
           : event.description}
       </p>
-      <p className='text-sm text-gray-600 dark:text-gray-400'>{new Date(event.date).toLocaleString()}</p>
+      <p className='text-sm text-gray-600 dark:text-gray-400'>
+        {new Date(event.date).toLocaleString()}
+      </p>
       <Countdown eventDate={event.date} />
-      <div className='flex gap-2 mt-2'>
+      <div className='flex gap-4 mt-3'>
         <button
           onClick={(e) => {
             e.stopPropagation();

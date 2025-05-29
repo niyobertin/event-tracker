@@ -5,7 +5,7 @@ import EventForm from '../EventForm';
 interface EventInput {
   title: string;
   description: string;
-  date: string;
+  dateTime: string;
 }
 
 interface Props {
