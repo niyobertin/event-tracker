@@ -9,4 +9,5 @@ export const eventSchema = yup.object().shape({
     .test('is-future', 'Event date must be in the future', (value) => {
       return new Date(value || '') >= new Date();
     }),
+  endingTime: yup.string().required('Event date and time is required'),
 });

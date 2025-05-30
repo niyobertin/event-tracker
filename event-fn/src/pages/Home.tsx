@@ -50,6 +50,7 @@ const Home = () => {
           title: item.title,
           description: item.description,
           date: item.dateTime,
+          endDate: item.endingTime,
           createdAt: item.createdAt,
           updatedAt: item.updatedAt,
         })),
@@ -96,7 +97,7 @@ const Home = () => {
     setLoading(true);
     setError(null);
     try {
-      await fetch(API_URL, {
+      await fetch(`${API_URL}/api/v1/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

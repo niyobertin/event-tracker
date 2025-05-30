@@ -2,22 +2,39 @@ import { EventModel } from "../database/models/eventModel";
 import { IEvent } from "../../types";
 
 export const createEvent = async (event: IEvent): Promise<IEvent> => {
-  const eventDateTime = new Date(event.dateTime);
-  const eventEndingTime = new Date(event.endingTime);
-  if (eventDateTime < new Date()) {
-    throw new Error("Event date and time must be in the future");
+  // Convert input strings to Date objects
+  const eventDateTime = new Date(event.dateTime.toString());
+  const eventEndingTime = new Date(event.endingTime.toString());
+
+  const now = new Date();
+
+  if (eventDateTime <= now) {
+    throw new Error("Event start date and time must be in the future");
   }
-  if (eventEndingTime < new Date()) {
-    throw new Error("Event date and time must be in the future");
+  if (eventEndingTime <= now) {
+    throw new Error("Event end date and time must be in the future");
   }
+  if (eventEndingTime <= eventDateTime) {
+    throw new Error("Event end time must be after start time");
+  }
+
+  // Check if event with same title and exact start date exists
   const existingEvent = await EventModel.findOne({
     title: event.title,
-    dateTime: event.dateTime,
+    dateTime: eventDateTime,
   });
+
   if (existingEvent) {
     throw new Error("An event with the same title and date already exists");
   }
-  const newEvent = await EventModel.create(event);
+
+  // Create event storing Date objects, NOT strings
+  const newEvent = await EventModel.create({
+    ...event,
+    dateTime: eventDateTime.toISOString(),
+    endingTime: eventEndingTime.toISOString(),
+  });
+
   return newEvent;
 };
 
@@ -52,7 +69,10 @@ export const updateEvent = async (
   id: string,
   updatedFields: Partial<IEvent>
 ): Promise<IEvent | null> => {
-  if (updatedFields.dateTime && new Date(updatedFields.dateTime) < new Date()) {
+  if (
+    updatedFields.dateTime &&
+    new Date(updatedFields.dateTime.toString()) < new Date()
+  ) {
     throw new Error("Event date and time must be in the future");
   }
 

@@ -1,4 +1,3 @@
-// components/EventForm.tsx
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,7 +6,8 @@ import { eventSchema } from '../schemas/eventSchema';
 interface EventInput {
   title: string;
   description: string;
-  dateTime: string; // ISO date string (e.g., "2025-06-10T14:00")
+  dateTime: string;
+  endingTime: string;
 }
 
 interface Props {
@@ -22,15 +22,37 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialData }) => {
     formState: { errors },
   } = useForm<EventInput>({
     resolver: yupResolver(eventSchema),
-    defaultValues: initialData || {
-      title: '',
-      description: '',
-      dateTime: '',
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          dateTime: initialData.dateTime,
+          endingTime: initialData.endingTime,
+        }
+      : {
+          title: '',
+          description: '',
+          dateTime: '',
+          endingTime: '',
+        },
   });
 
+  const toUTC = (localString: string): string => {
+    const localDate = new Date(localString);
+    return new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
+  };
+
+  const handleUTCSubmit = (data: EventInput) => {
+    const transformedData: EventInput = {
+      ...data,
+      dateTime: toUTC(data.dateTime),
+      endingTime: toUTC(data.endingTime),
+    };
+
+    onSubmit(transformedData);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+    <form onSubmit={handleSubmit(handleUTCSubmit)} className='space-y-4'>
       <div>
         <label className='block text-sm font-medium dark:text-gray-100'>Title</label>
         <input
@@ -58,6 +80,16 @@ const EventForm: React.FC<Props> = ({ onSubmit, initialData }) => {
           className='w-full border rounded p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100'
         />
         <p className='text-red-500 text-sm'>{errors.dateTime?.message}</p>
+      </div>
+
+      <div>
+        <label className='block text-sm font-medium dark:text-gray-100'>Ending Date & Time</label>
+        <input
+          type='datetime-local'
+          {...register('endingTime')}
+          className='w-full border rounded p-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100'
+        />
+        <p className='text-red-500 text-sm'>{errors.endingTime?.message}</p>
       </div>
 
       <button

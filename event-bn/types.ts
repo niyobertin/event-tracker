@@ -2,8 +2,8 @@ export interface IEvent {
   title: string;
   description: string;
   location: string;
-  dateTime: Date;
-  endingTime: Date;
+  dateTime: String;
+  endingTime: String;
   started: Boolean;
   ended: Boolean;
 }
