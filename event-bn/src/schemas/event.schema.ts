@@ -16,6 +16,10 @@ export const createEventSchema = Joi.object({
     "date.base": "Date and time must be a valid date",
     "any.required": "Date and time is required",
   }),
+  endingTime: Joi.date().required().messages({
+    "date.base": "Date and time must be a valid date",
+    "any.required": "Date and time is required",
+  }),
 });
 
 const updateEventSchema = Joi.object({

@@ -3,7 +3,11 @@ import { IEvent } from "../../types";
 
 export const createEvent = async (event: IEvent): Promise<IEvent> => {
   const eventDateTime = new Date(event.dateTime);
+  const eventEndingTime = new Date(event.endingTime);
   if (eventDateTime < new Date()) {
+    throw new Error("Event date and time must be in the future");
+  }
+  if (eventEndingTime < new Date()) {
     throw new Error("Event date and time must be in the future");
   }
   const existingEvent = await EventModel.findOne({

@@ -20,6 +20,18 @@ export const eventSchema = new Schema<IEvent>(
       type: Date,
       required: true,
     },
+    endingTime: {
+      type: Date,
+      required: true,
+    },
+    started: {
+      type: Boolean,
+      default: false,
+    },
+    ended: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

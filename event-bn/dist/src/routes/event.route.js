@@ -1,15 +1,10 @@
-import { Router } from "express";
-import {
-  createEventController,
-  editEventDetails,
-  getAllEventsController,
-  getSingleEvent,
-  removeEvent,
-} from "../controllers/event.controller";
-import { validateBodyRequestData } from "../middlewares/validateRequestBody";
-import { createEventSchema } from "../schemas/event.schema";
-
-const eventRoutes = Router();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const event_controller_1 = require("../controllers/event.controller");
+const validateRequestBody_1 = require("../middlewares/validateRequestBody");
+const event_schema_1 = require("../schemas/event.schema");
+const eventRoutes = (0, express_1.Router)();
 /**
  * @swagger
  * /events:
@@ -74,7 +69,6 @@ const eventRoutes = Router();
  *         - description
  *         - location
  *         - dateTime
- *         - endingTime
  *       properties:
  *         title:
  *           type: string
@@ -89,18 +83,8 @@ const eventRoutes = Router();
  *           type: string
  *           format: date-time
  *           example: "2023-10-01T12:00:00Z"
- *         endingTime:
- *           type: string
- *           format: date-time
- *           example: "2023-10-01T13:00:00Z"
  */
-
-eventRoutes.post(
-  "/",
-  validateBodyRequestData(createEventSchema),
-  createEventController
-);
-
+eventRoutes.post("/", (0, validateRequestBody_1.validateBodyRequestData)(event_schema_1.createEventSchema), event_controller_1.createEventController);
 /**
  * @swagger
  * /events:
@@ -152,7 +136,7 @@ eventRoutes.post(
  *                   type: integer
  *                   example: 1
  */
-eventRoutes.get("/", getAllEventsController);
+eventRoutes.get("/", event_controller_1.getAllEventsController);
 /**
  * @swagger
  * /events/{id}:
@@ -204,8 +188,7 @@ eventRoutes.get("/", getAllEventsController);
  *                   type: string
  *                   example: "Database connection failed"
  */
-
-eventRoutes.get("/:id", getSingleEvent);
+eventRoutes.get("/:id", event_controller_1.getSingleEvent);
 /**
  * @swagger
  * /events/{id}:
@@ -260,8 +243,7 @@ eventRoutes.get("/:id", getSingleEvent);
  *       500:
  *         description: Internal server error
  */
-
-eventRoutes.patch("/:id", editEventDetails);
+eventRoutes.patch("/:id", event_controller_1.editEventDetails);
 /**
  * @swagger
  * /events/{id}:
@@ -292,6 +274,5 @@ eventRoutes.patch("/:id", editEventDetails);
  *       500:
  *         description: Internal server error
  */
-
-eventRoutes.delete("/:id", removeEvent);
-export default eventRoutes;
+eventRoutes.delete("/:id", event_controller_1.removeEvent);
+exports.default = eventRoutes;

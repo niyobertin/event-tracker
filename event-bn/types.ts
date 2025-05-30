@@ -3,4 +3,7 @@ export interface IEvent {
   description: string;
   location: string;
   dateTime: Date;
+  endingTime: Date;
+  started: Boolean;
+  ended: Boolean;
 }

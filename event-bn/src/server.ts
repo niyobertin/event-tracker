@@ -6,8 +6,10 @@ import swaggerUi from "swagger-ui-express";
 import { swaggerOptions } from "./utils/swaggerConfig";
 import appRoutes from "./routes/index";
 import { dbConnection } from "./config/mongo";
+import { startEventStatusJob } from "./utils/jobs/eventCronJob";
 dotenv.config();
 dbConnection();
+startEventStatusJob();
 
 const app = express();
 const PORT = process.env.PORT || 80;
